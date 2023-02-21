@@ -7,6 +7,8 @@ import torch
 import torchmetrics
 from gpytorch.kernels import MaternKernel, RBFKernel, ScaleKernel
 
+import numpy as np
+
 from gpytGPE.utils.earlystopping import EarlyStopping, analyze_losstruct
 from gpytGPE.utils.preprocessing import StandardScaler, UnitCubeScaler
 
@@ -337,6 +339,38 @@ class GPEmul:
         y_mean, y_std = self.scy.inverse_transform(y_mean, ystd_=y_std)
 
         return y_mean, y_std
+
+    def predict_memory(self, X_new):
+        self.model.eval()
+        self.likelihood.eval()
+
+        print('Splitting X_new before predicting to make sure it doesn not go out of memory...')
+
+        N_split = int(np.ceil(X_new.shape[0]/1000))
+
+        print('Split vector in '+str(N_split)+' parts.')
+        y_mean_collect = []
+        y_std_collect = []
+        for k in range(N_split):
+            end_idx = min((k+1)*1000,X_new.shape[0])
+            X_new_tmp = X_new[k*1000:end_idx,:]
+
+            X_new_tmp = self.tensorize(self.scx.transform(X_new_tmp)).to(self.device)
+
+            with torch.no_grad(), gpytorch.settings.fast_pred_var():
+                predictions = self.likelihood(self.model(X_new_tmp))
+                y_mean = predictions.mean.cpu().numpy()
+                y_std = numpy.sqrt(predictions.variance.cpu().numpy())  
+
+            y_mean_tmp, y_std_tmp = self.scy.inverse_transform(y_mean, ystd_=y_std)
+
+            y_mean_collect += list(y_mean_tmp)
+            y_std_collect += list(y_std_tmp)
+
+        y_mean_collect = np.array(y_mean_collect,dtype=float)
+        y_std_collect = np.array(y_std_collect,dtype=float)
+
+        return y_mean_collect, y_std_collect
 
     def sample(self, X_new, n_draws=N_DRAWS):
         self.model.eval()
