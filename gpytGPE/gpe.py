@@ -12,7 +12,8 @@ import numpy as np
 from gpytGPE.utils.earlystopping import EarlyStopping, analyze_losstruct
 from gpytGPE.utils.preprocessing import StandardScaler, UnitCubeScaler
 
-DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+DEVICE = "cpu"
 DEVICE_LOAD = torch.device("cpu")
 FILENAME = "gpe.pth"
 KERNEL_DCT = {"Matern": MaternKernel, "RBF": RBFKernel}
