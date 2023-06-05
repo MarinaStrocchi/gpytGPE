@@ -15,28 +15,17 @@ The entire code runs on both CPU and GPU. The cross-validation training loop is 
 ---
 ## Information
 
-**Status**: `Occasionally maintained`
-
-**Type**: `Personal project`
-
-**Development years**: `2020-2021`
-
 **Author**: [stelong](https://github.com/stelong)
 
 ---
 ## Getting Started
 
 ```
-git clone https://github.com/stelong/gpytGPE.git
+git clone https://github.com/MarinaStrocchi/gpytGPE.git
 ```
 
 ---
-## Prerequisites
 
-* [Python3](https://www.python.org/) (>=3.8)
-* [virtualenv](https://pypi.org/project/virtualenv/) (optional)
-
----
 ## Installing
 
 ```
