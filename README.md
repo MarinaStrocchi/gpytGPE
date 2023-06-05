@@ -18,20 +18,4 @@ For more information, please refero to the original repository [here](https://gi
 git clone https://github.com/MarinaStrocchi/gpytGPE.git
 ```
 
----
-
-## Installing
-
-```
-cd gpytGPE/
-```
-```
-# (this block is optional)
-conda create -n py38 python=3.18.13
-conda activate py38
-python -m pip install --upgrade pip
-```
-```
-pip install .
-```
 
