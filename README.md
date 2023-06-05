@@ -16,6 +16,10 @@ For more information, please refero to the original repository [here](https://gi
 
 ```
 git clone https://github.com/MarinaStrocchi/gpytGPE.git
+# (this block is optional)
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip setuptools wheel
 ```
 
 
